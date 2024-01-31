@@ -22,7 +22,7 @@ public class SignUp extends Parameters {
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
 	}
 
-	@Test(priority = 1, enabled = false)
+	@Test(priority = 1)
 	public void myFirstTest() {
 		driver.get("https://magento.softwaretestingboard.com/");
 		driver.findElement(By.linkText("Create an Account")).click();
@@ -54,7 +54,7 @@ public class SignUp extends Parameters {
 
 	}
 
-	@Test(priority = 2, enabled = false)
+	@Test(priority = 2)
 	public void logoutProcess() {
 		// interact
 		driver.get("https://magento.softwaretestingboard.com/customer/account/logout/");
@@ -64,7 +64,7 @@ public class SignUp extends Parameters {
 
 	}
 
-	@Test(priority = 3, enabled = false)
+	@Test(priority = 3)
 	public void loginProcess() throws InterruptedException {
 		// interact
 		driver.findElement(By.linkText("Sign In")).click();
@@ -85,28 +85,31 @@ public class SignUp extends Parameters {
 	public void AddOneRandomItem() throws InterruptedException {
 		// interaction
 		driver.get("https://magento.softwaretestingboard.com/");
-		WebElement itemContainer = driver.findElement(By.cssSelector(".product-items.widget-product-grid"));
-		int numbreOfItems = itemContainer.findElements(By.tagName("li")).size();
-		System.out.println(numbreOfItems);
-		int randomItemToSelect = rand.nextInt(4);
-		itemContainer.findElements(By.tagName("li")).get(randomItemToSelect).click();
 
-		// after click to the item (sizes)
+		WebElement ItemsContainer = driver.findElement(By.cssSelector(".product-items.widget-product-grid"));
+
+		int numberofitems = ItemsContainer.findElements(By.tagName("li")).size();
+		System.out.println(numberofitems);
+
+		int randomItemToSelect = rand.nextInt(4);
+		ItemsContainer.findElements(By.tagName("li")).get(randomItemToSelect).click();
+		
+
 		WebElement sizesContainer = driver.findElement(By.cssSelector(".swatch-attribute.size"));
-		int sizes = sizesContainer.findElements(By.className("swatch-option")).size();
-		sizesContainer.findElements(By.className("swatch-option")).get(rand.nextInt(sizes)).click();
+		int theSizes = sizesContainer.findElements(By.className("swatch-option")).size();
+		sizesContainer.findElements(By.className("swatch-option")).get(rand.nextInt(theSizes)).click();
 		Thread.sleep(2000);
-		// click to the color
+
 		WebElement colorsContainer = driver.findElement(By.cssSelector(".swatch-attribute.color"));
-		int theColores = colorsContainer.findElements(By.className("swatch-option")).size();
-		colorsContainer.findElements(By.className("swatch-option")).get(rand.nextInt(theColores)).click();
+		int theColors = colorsContainer.findElements(By.className("swatch-option")).size();
+		colorsContainer.findElements(By.className("swatch-option")).get(rand.nextInt(theColors)).click();
+		Thread.sleep(2000);
+		driver.findElement(By.id("product-addtocart-button")).click();
 		Thread.sleep(3000);
 
-		driver.findElement(By.id("product-addtocart-button")).click();
-		
-		// Test
-		
 		String ActualMsg = driver.findElement(By.cssSelector(".page.messages")).getText();
+		//test
+
 		assertEquals(ActualMsg.contains("You added"), true);
 
 	}
